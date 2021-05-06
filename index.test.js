@@ -37,6 +37,7 @@ describe('Deploy to ECS', () => {
             .fn()
             .mockReturnValueOnce('task-definition.json')                      // task-definition
             .mockReturnValueOnce('cluster-789')                               // cluster
+            .mockReturnValueOnce('EC2')                                       // launch-type
             .mockReturnValueOnce(null)                                        // vpc
             .mockReturnValueOnce('1')                                         // count
             .mockReturnValueOnce('amazon-ecs-run-task-for-github-actions');   // started-by
@@ -135,6 +136,7 @@ describe('Deploy to ECS', () => {
             cluster: 'cluster-789',
             taskDefinition: 'task:def:arn',
             count: '1',
+            launchType: "EC2",
             startedBy: 'amazon-ecs-run-task-for-github-actions'
         });
         expect(mockEcsWaiter).toHaveBeenCalledTimes(0);
@@ -146,6 +148,7 @@ describe('Deploy to ECS', () => {
             .fn()
             .mockReturnValueOnce('task-definition.json')                      // task-definition
             .mockReturnValueOnce('cluster-789')                               // cluster
+            .mockReturnValueOnce('EC2')                                       // launch-type
             .mockReturnValueOnce(null)                                        // vpc
             .mockReturnValueOnce('1')                                         // count
             .mockReturnValueOnce('amazon-ecs-run-task-for-github-actions')    // started-by

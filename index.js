@@ -88,7 +88,8 @@ async function run() {
     // Get inputs
     const taskDefinitionFile = core.getInput('task-definition', { required: true });
     const cluster = core.getInput('cluster', { required: false });
-    const useVPC = core.getInput('use-vpc', { required: false });
+    const launchType = core.getInput('launch-type', { required: false }) || "FARGATE";
+    const useVPC = core.getInput('use-vpc', { required: launchType === "FARGATE" });
     const count = core.getInput('count', { required: true });
     const startedBy = core.getInput('started-by', { required: false }) || agent;
     const waitForFinish = core.getInput('wait-for-finish', { required: false }) || false;
@@ -128,12 +129,18 @@ async function run() {
 
     let subnets = null;
     if (useVPC) {
-      subnets = await ec2.describeSubnets({
+      const describeSubnetResult = await ec2.describeSubnets({
         Filters: [{ Name: "vpc-id", Values: [useVPC] }]
-      })["Subnets"];
+      }).promise();
+      if (!describeSubnetResult["Subnets"]) {
+        core.setFailed("No subnets found for given vpc");
+        return
+      }
+      subnets = describeSubnetResult["Subnets"].map(s => s.SubnetId)
     }
 
     const runTaskParams = {
+      launchType,
       cluster: clusterName,
       taskDefinition: taskDefArn,
       count: count,

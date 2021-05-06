@@ -24,6 +24,8 @@ Runs an Amazon ECS task on ECS cluster.
       uses: smitp/amazon-ecs-run-task@v1
       with:
         task-definition: task-definition.json
+        launch-type: EC2 | FARGATE
+        use-vpc: 'vpc-xyzid'
         cluster: my-cluster
         count: 1
         started-by: github-actions-${{ github.actor }}
