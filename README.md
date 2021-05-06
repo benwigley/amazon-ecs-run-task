@@ -36,7 +36,7 @@ See [action.yml](action.yml) for the full documentation for this action's inputs
 
 ### Task definition file
 
-It is highly recommended to treat the task definition "as code" by checking it into your git repository as a JSON file.  Changes to any task definition attributes like container images, environment variables, CPU, and memory can be deployed with this GitHub action by editing your task definition file and pushing a new git commit.
+It is highly recommended to treat the task definition "as code" by checking it into your git repository as a JSON file. Changes to any task definition attributes like container images, environment variables, CPU, and memory can be deployed with this GitHub action by editing your task definition file and pushing a new git commit.
 
 An existing task definition can be downloaded to a JSON file with the following command.  Account IDs can be removed from the file by removing the `taskDefinitionArn` attribute, and updating the `executionRoleArn` and `taskRoleArn` attribute values to contain role names instead of role ARNs.
 ```sh

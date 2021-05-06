@@ -90,7 +90,7 @@ async function run() {
     const cluster = core.getInput('cluster', { required: false });
     const launchType = core.getInput('launch-type', { required: false }) || "FARGATE";
     const useVPC = core.getInput('use-vpc', { required: launchType === "FARGATE" });
-    const count = core.getInput('count', { required: true });
+    const count = core.getInput('count', { required: false }) || 1;
     const startedBy = core.getInput('started-by', { required: false }) || agent;
     const waitForFinish = core.getInput('wait-for-finish', { required: false }) || false;
     let waitForMinutes = parseInt(core.getInput('wait-for-minutes', { required: false })) || 30;

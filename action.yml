@@ -10,9 +10,15 @@ inputs:
   cluster:
     description: "The name of the ECS cluster. Will default to the 'default' cluster"
     required: true
+  launch-type:
+    description: "The launch type of the ECS Task. Either EC2 or FARGATE. Defaults to EC2"
+    required: false
+  use-vpc:
+    description: "The id of a VPC to use. Required when using the FARGATE launch type"
+    required: false
   count:
-    description: "The count of tasks to run. Will default to the 1"
-    required: true
+    description: "The count of tasks to run. Will default to 1"
+    required: false
   started-by:
     description: "The value of the task started-by"
     required: false
