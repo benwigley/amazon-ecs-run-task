@@ -26,6 +26,7 @@ Runs an Amazon ECS task on ECS cluster.
         task-definition: task-definition.json
         launch-type: EC2 | FARGATE
         use-vpc: 'vpc-xyzid'
+        use-security-group: 'sg-xyzid'
         cluster: my-cluster
         count: 1
         started-by: github-actions-${{ github.actor }}

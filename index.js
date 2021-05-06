@@ -130,6 +130,7 @@ async function run() {
 
     let subnets = null;
     if (useVPC) {
+      // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/EC2.html#describeSubnets-property
       const describeSubnetResult = await ec2.describeSubnets({
         Filters: [{ Name: "vpc-id", Values: [useVPC] }]
       }).promise();
@@ -160,6 +161,7 @@ async function run() {
       }
     }
 
+    // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/ECS.html#runTask-property
     const runTaskResponse = await ecs.runTask(runTaskParams).promise();
 
     core.debug(`Run task response ${JSON.stringify(runTaskResponse)}`);

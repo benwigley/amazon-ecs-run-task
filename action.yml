@@ -16,6 +16,9 @@ inputs:
   use-vpc:
     description: "The id of a VPC to use. Required when using the FARGATE launch type"
     required: false
+  use-security-group:
+    description: "The id of a Security Group to use for the task. Only applies when use-vpc is given."
+    required: false
   count:
     description: "The count of tasks to run. Will default to 1"
     required: false
