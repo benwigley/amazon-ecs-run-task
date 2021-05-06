@@ -39,6 +39,7 @@ describe('Deploy to ECS', () => {
             .mockReturnValueOnce('cluster-789')                               // cluster
             .mockReturnValueOnce('EC2')                                       // launch-type
             .mockReturnValueOnce(null)                                        // vpc
+            .mockReturnValueOnce(null)                                        // use-security-group
             .mockReturnValueOnce('1')                                         // count
             .mockReturnValueOnce('amazon-ecs-run-task-for-github-actions');   // started-by
 
@@ -150,6 +151,7 @@ describe('Deploy to ECS', () => {
             .mockReturnValueOnce('cluster-789')                               // cluster
             .mockReturnValueOnce('EC2')                                       // launch-type
             .mockReturnValueOnce(null)                                        // vpc
+            .mockReturnValueOnce(null)                                        // use-security-group
             .mockReturnValueOnce('1')                                         // count
             .mockReturnValueOnce('amazon-ecs-run-task-for-github-actions')    // started-by
             .mockReturnValueOnce('true');                                     // wait-for-finish

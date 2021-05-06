@@ -90,6 +90,7 @@ async function run() {
     const cluster = core.getInput('cluster', { required: false });
     const launchType = core.getInput('launch-type', { required: false }) || "FARGATE";
     const useVPC = core.getInput('use-vpc', { required: launchType === "FARGATE" });
+    const useSecurityGroup = core.getInput('use-security-group', { required: false });
     const count = core.getInput('count', { required: false }) || 1;
     const startedBy = core.getInput('started-by', { required: false }) || agent;
     const waitForFinish = core.getInput('wait-for-finish', { required: false }) || false;
@@ -134,9 +135,9 @@ async function run() {
       }).promise();
       if (!describeSubnetResult["Subnets"]) {
         core.setFailed("No subnets found for given vpc");
-        return
+        return;
       }
-      subnets = describeSubnetResult["Subnets"].map(s => s.SubnetId)
+      subnets = describeSubnetResult["Subnets"].map(s => s.SubnetId);
     }
 
     const runTaskParams = {
@@ -146,9 +147,19 @@ async function run() {
       count: count,
       startedBy: startedBy,
     };
+
     if (subnets) {
-      runTaskParams["networkConfiguration"] = { awsvpcConfiguration: { subnets } };
+      runTaskParams["networkConfiguration"] = {
+        awsvpcConfiguration: {
+          subnets,
+          "assignPublicIp": "ENABLED"
+        }
+      };
+      if (useSecurityGroup) {
+        runTaskParams["networkConfiguration"]["awsvpcConfiguration"]["securityGroups"] = [useSecurityGroup];
+      }
     }
+
     const runTaskResponse = await ecs.runTask(runTaskParams).promise();
 
     core.debug(`Run task response ${JSON.stringify(runTaskResponse)}`);
