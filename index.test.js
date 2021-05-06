@@ -10,6 +10,7 @@ const mockEcsRegisterTaskDef = jest.fn();
 const mockEcsDescribeTasks = jest.fn();
 const mockRunTasks = jest.fn();
 const mockEcsWaiter = jest.fn();
+const mockEc2DescribeSubnets = jest.fn();
 jest.mock('aws-sdk', () => {
     return {
         config: {
@@ -20,6 +21,9 @@ jest.mock('aws-sdk', () => {
             describeTasks: mockEcsDescribeTasks,
             runTask: mockRunTasks,
             waitFor: mockEcsWaiter
+        })),
+        EC2: jest.fn(() => ({
+            describeSubnets: mockEc2DescribeSubnets
         }))
     };
 });
@@ -33,6 +37,7 @@ describe('Deploy to ECS', () => {
             .fn()
             .mockReturnValueOnce('task-definition.json')                      // task-definition
             .mockReturnValueOnce('cluster-789')                               // cluster
+            .mockReturnValueOnce(null)                                        // vpc
             .mockReturnValueOnce('1')                                         // count
             .mockReturnValueOnce('amazon-ecs-run-task-for-github-actions');   // started-by
 
@@ -141,6 +146,7 @@ describe('Deploy to ECS', () => {
             .fn()
             .mockReturnValueOnce('task-definition.json')                      // task-definition
             .mockReturnValueOnce('cluster-789')                               // cluster
+            .mockReturnValueOnce(null)                                        // vpc
             .mockReturnValueOnce('1')                                         // count
             .mockReturnValueOnce('amazon-ecs-run-task-for-github-actions')    // started-by
             .mockReturnValueOnce('true');                                     // wait-for-finish
